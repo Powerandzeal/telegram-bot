@@ -8,6 +8,8 @@ import com.pengrad.telegrambot.request.SendMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import pro.sky.telegrambot.model.Task;
 import pro.sky.telegrambot.repositories.TaskRepositories;
@@ -15,6 +17,7 @@ import pro.sky.telegrambot.repositories.TaskRepositories;
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,13 +31,15 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
     @Autowired
     private TaskRepositories taskRepositories;
+    @Autowired
+    private TelegramBot telegramBot;
+
 
 
     private Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListener.class);
 
 
-    @Autowired
-    private TelegramBot telegramBot;
+
 
     @PostConstruct
     public void init() {
@@ -44,44 +49,42 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     @Override
     public int process(List<Update> updates) { // метод для автоматического ответа на сообщение /start
         updates.forEach(update -> {
+
             logger.info("Processing update: {}", update);
+            Long chatIdUser = update.message().chat().id();
+            String message1 = update.message().text();
+            Matcher matcher = pattern.matcher(message1);
 
-            if (!update.message().text().isEmpty()) {
-                Long chatIdUser = update.message().chat().id();
+            if ("/start".equals(message1)) {
+                telegramBot.execute(new SendMessage(chatIdUser, "Welcome to Remainder habits bot " +
+                        update.message().chat().username() + " Enter your reminder in format " + '\n' +
+                        "01.01.2022 20:00 Сделать домашнюю работу"));
+            }
 
-                if ("/start".equals(update.message().text())) {
-                    telegramBot.execute(new SendMessage(chatIdUser, "Welcome to Remainder habits bot " +
-                            update.message().chat().username() + " Enter your reminder in format " + '\n' +
-                            "01.01.2022 20:00 Сделать домашнюю работу"));
-
-
-                    String message = update.message().text();
-                    logger.info("сообщение от пользователя" + message);
-
-                    Matcher matcher = pattern.matcher(message);
-                    if (matcher.matches()) {
-                        // обрабатываем ситуацию, когда строка соответствует паттерну
-                        Task task = new Task();
-                        String text = update.message().text();
-                        task.setText(text);
-                        task.setChatId(chatIdUser);
-                        task.setTimeReminder(LocalDateTime.now());
-                        taskRepositories.save(task);
-
-
-                    }
-                } else {
-                    telegramBot.execute(new SendMessage(chatIdUser, "Sorry I dont understand your command" +
-                            "named " + update.message().text()));
-                }
+//            String message = update.message().text();
+            logger.info("сообщение от пользователя" + message1);
+             if (matcher.matches()) {
+                // обрабатываем ситуацию, когда строка соответствует паттерну
+                Task task = new Task();
+                task.setText(matcher.group(3));
+                task.setChatId(chatIdUser);
+                task.setTimeReminder(LocalDateTime.parse(matcher.group(1),DATE_TIME_FORMATTER));
+                taskRepositories.save(task);
+                telegramBot.execute(new SendMessage(chatIdUser, "Your Task is add"));
 
             }
+//            else {
+//                telegramBot.execute(new SendMessage(chatIdUser, "Sorry I dont understand your command"));
+//
+//            }
 
 
         });
 
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
+
+
 
 
 //        telegramBot.setUpdatesListener(updates1 -> {

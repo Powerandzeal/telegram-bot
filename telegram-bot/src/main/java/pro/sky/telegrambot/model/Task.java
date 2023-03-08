@@ -1,5 +1,6 @@
 package pro.sky.telegrambot.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,7 +13,6 @@ public class Task {
     public Task() {
     }
 
-
     public Task(Long id, Long chatId, String text, LocalDateTime timeReminder) {
         this.id = id;
         this.chatId = chatId;
@@ -20,12 +20,16 @@ public class Task {
         this.timeReminder = timeReminder;
     }
 
-
     @Id
     @GeneratedValue
+    @Column(name="id", nullable = false)
     private Long id;
+
+    @Column(name="chat_id", nullable = false)
     private Long chatId;
+    @Column(name="text", nullable = false)
     private String text;
+    @Column(name="time_reminder", nullable = false)
     private LocalDateTime timeReminder;
 
     public Long getId() {
