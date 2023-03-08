@@ -28,15 +28,6 @@ public class TelegramBotConfiguration {
         bot.execute(new DeleteMyCommands());
         return bot;
     }
-//    @Scheduled(cron = "0 * * * * *")
-//    private void sendReminder() {
-//        var tasks = taskRepositories.findAllByTimeReminder(
-//                LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES)
-//        );
-//        for (Task task : tasks) {
-//            telegramBot.execute(new SendMessage(task.getChatId(),task.getText()));
-//        }
-//    }
 
 
 

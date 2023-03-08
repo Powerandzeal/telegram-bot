@@ -27,15 +27,6 @@ public class Scheduling {
     TaskRepositories taskRepositories;
 
 
-//    @Scheduled(cron = "0 0/1 * * * *")
-//    public void sendMessage() {
-//        var task = taskRepositories.findTaskByTimeReminder(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES));
-//        if(task!=null) {
-//            SendMessage reminder = new SendMessage(task.getChatId(), task.getText());
-//            telegramBot.execute(reminder);
-//        }
-//
-//    }
     @Scheduled(cron = "0 0/1 * * * *")
     public void sendMessage1() {
         var task = taskRepositories.findTaskByTimeReminder(

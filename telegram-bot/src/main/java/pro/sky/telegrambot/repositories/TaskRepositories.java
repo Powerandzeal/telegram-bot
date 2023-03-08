@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
 
-
+@Repository
 public interface TaskRepositories extends JpaRepository<Task, Long> {
 
 

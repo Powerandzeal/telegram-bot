@@ -15,7 +15,6 @@ public class TelegramBotApplication {
 
 	public static void main(String[] args) {
 
-		System.out.println("hello");
 		SpringApplication.run(TelegramBotApplication.class, args);
 
 	}

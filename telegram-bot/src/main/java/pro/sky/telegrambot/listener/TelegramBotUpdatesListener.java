@@ -35,10 +35,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private TelegramBot telegramBot;
 
 
-
     private Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListener.class);
-
-
 
 
     @PostConstruct
@@ -61,112 +58,22 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                         "01.01.2022 20:00 Сделать домашнюю работу"));
             }
 
-//            String message = update.message().text();
+
             logger.info("сообщение от пользователя" + message1);
-             if (matcher.matches()) {
+            if (matcher.matches()) {
                 // обрабатываем ситуацию, когда строка соответствует паттерну
                 Task task = new Task();
                 task.setText(matcher.group(3));
                 task.setChatId(chatIdUser);
-                task.setTimeReminder(LocalDateTime.parse(matcher.group(1),DATE_TIME_FORMATTER));
+                task.setTimeReminder(LocalDateTime.parse(matcher.group(1), DATE_TIME_FORMATTER));
                 taskRepositories.save(task);
                 telegramBot.execute(new SendMessage(chatIdUser, "Your Task is add"));
 
             }
-//            else {
-//                telegramBot.execute(new SendMessage(chatIdUser, "Sorry I dont understand your command"));
-//
-//            }
-
-
         });
 
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
-
-
-
-
-//        telegramBot.setUpdatesListener(updates1 -> {
-//            Long chatIduser1 =
-//            // Обрабатываем входящие сообщения
-//            // возвращаем id последнего обработанного сообщения или отмечаем все как обработанные
-//            return UpdatesListener.CONFIRMED_UPDATES_ALL;
-//        });
-// 01.01.2022 20:00 Сделать домашнюю работу
-
-
-//if (update.message().text().equals("/start")
-//                ) {
-//        Long chatIdUser = update.message().chat().id();
-//        telegramBot.execute(new SendMessage(chatIdUser, "Welcome to Remainder habits bot"));
-//
-//    }
-
-
-//-------------------------------------------      код со свитчами
-//     if (!update.message().text().isEmpty()) {
-//        Long chatIdUser = update.message().chat().id();
-//
-//        switch (update.message().text()) {
-//            case "/start":
-//                telegramBot.execute(new SendMessage(chatIdUser, "Welcome to Remainder habits bot " +
-//                        update.message().chat().username() + " Enter your reminder in format " + '\n' +
-//                        "01.01.2022 20:00 Сделать домашнюю работу"));
-//
-//                switch (update.message().text()) {
-//                    case
-//                            String message1 = update.message().text();
-//                        Pattern pattern = Pattern.compile("([0-9\\.\\:\\s]{16})(\\s)([\\W+]+)");
-//
-//                        logger.info("сообщение от пользователя" + message1);
-//
-//                        Matcher matcher = pattern.matcher(message1);
-//                        if (matcher.matches()) {
-//                            // обрабатываем ситуацию, когда строка соответствует паттерну
-//                            Task task = new Task();
-//                            String text = update.message().text();
-//                            task.setText(text);
-//                            task.setChatId(chatIdUser);
-//                            task.setTimeReminder(LocalDateTime.now());
-//                            taskRepositories.save(task);
-//
-//                        }
-//                }
-//                            }
-//
-//                break;
-//            default:
-//
-//                telegramBot.execute(new SendMessage(chatIdUser, "Sorry I dont understand your command" +
-//                        "named " + update.message().text()));
-//        }
-//    }
-
-
-//=======================
-//     if (update.message().text().equals("/start")) {
-//        Long chatIdUser = update.message().chat().id();
-//        SendMessage greeting = new SendMessage(chatIdUser,"Welcome to Remainder habits bot " +
-//                update.message().chat().username() + " Enter your reminder in format " + '\n' +
-//                "01.01.2022 20:00 Сделать домашнюю работу");
-//        telegramBot.execute(greeting);
-//
-////                    String message1 = update.message().text();
-//
-////                    logger.info("сообщение от пользователя" + message1);
-//
-//        Matcher matcher = pattern.matcher(update.message().text());
-//        if (matcher.matches()) {
-//            // обрабатываем ситуацию, когда строка соответствует паттерну
-//            LocalDateTime localDateTime = LocalDateTime.parse(matcher.group(1), DATE_TIME_FORMATTER);
-//            String text = matcher.group(3);
-//            Task task = new Task();
-//            task.setText(text);
-//            task.setChatId(chatIdUser);
-//            task.setTimeReminder(LocalDateTime.now());
-//            taskRepositories.save(task);
-//        }
 
 
 }
