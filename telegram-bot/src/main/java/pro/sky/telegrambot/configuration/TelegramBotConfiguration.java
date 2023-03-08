@@ -18,7 +18,6 @@ import java.time.temporal.ChronoUnit;
 @Configuration
 public class TelegramBotConfiguration {
 
-
     @Value("${telegram.bot.token}")
     private String token;
 

@@ -9,7 +9,6 @@ import java.util.Objects;
 
 @Entity
 public class Task {
-
     public Task() {
     }
 
@@ -22,14 +21,14 @@ public class Task {
 
     @Id
     @GeneratedValue
-    @Column(name="id", nullable = false)
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name="chat_id", nullable = false)
+    @Column(name = "chat_id", nullable = false)
     private Long chatId;
-    @Column(name="text", nullable = false)
+    @Column(name = "text", nullable = false)
     private String text;
-    @Column(name="time_reminder", nullable = false)
+    @Column(name = "time_reminder", nullable = false)
     private LocalDateTime timeReminder;
 
     public Long getId() {

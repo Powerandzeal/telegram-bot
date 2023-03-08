@@ -13,11 +13,10 @@ import java.util.Optional;
 public interface TaskRepositories extends JpaRepository<Task, Long> {
 
 
-    Collection<Task> findTaskByTimeReminder(LocalDateTime localDateTime );
+    Collection<Task> findTaskByTimeReminder(LocalDateTime localDateTime);
 
 
     Task getTopBy();
-
 
 
 }

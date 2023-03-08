@@ -24,16 +24,13 @@ import java.util.regex.Pattern;
 
 @Service
 public class TelegramBotUpdatesListener implements UpdatesListener {
-
     private static final Pattern pattern = Pattern.compile("([0-9\\.\\:\\s]{16})(\\s)([\\W+]+)");
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
-
 
     @Autowired
     private TaskRepositories taskRepositories;
     @Autowired
     private TelegramBot telegramBot;
-
 
     private Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListener.class);
 

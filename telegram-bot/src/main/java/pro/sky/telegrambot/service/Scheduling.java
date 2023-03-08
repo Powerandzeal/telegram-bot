@@ -16,6 +16,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+
 @EnableScheduling
 @ConditionalOnProperty(name = "scheduler.enabled", matchIfMissing = true)
 @Configuration
@@ -31,7 +32,7 @@ public class Scheduling {
     public void sendMessage1() {
         var task = taskRepositories.findTaskByTimeReminder(
                 LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES));
-        for (Task tasks:task){
+        for (Task tasks : task) {
             SendMessage reminder = new SendMessage(tasks.getChatId(), tasks.getText());
             telegramBot.execute(reminder);
         }
